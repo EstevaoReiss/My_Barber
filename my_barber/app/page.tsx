@@ -8,12 +8,18 @@ import { Badge } from "./_components/ui/badge";
 import { Avatar, AvatarImage } from "./_components/ui/avatar";
 import { db } from "./_lib/prisma";
 import BabershopItem from "./_components/babershop-item";
-import { Barbershop } from "@prisma/client"; // 👈 Importe o tipo
+import { Barbershop } from "@prisma/client"; 
 
-const Home = async () => {  // 👈 Componente com letra maiúscula (convenção)
+const Home = async () => {  
 
-  const babershops: Barbershop[] = await db.barbershop.findMany({}); // 👈 Tipado
-  
+  const babershops: Barbershop[] = await db.barbershop.findMany({}); 
+  const popularBabershops: Barbershop[] = await db.barbershop.findMany({
+    orderBy: {
+      name: "desc",
+    },
+
+  });
+
   return (
     <div className="p-5">
       <Header />
@@ -25,8 +31,9 @@ const Home = async () => {  // 👈 Componente com letra maiúscula (convenção
           <SearchIcon />
         </Button>
       </div>
-      
+
       <div className="relative h-[150px] w-full mt-6">
+
         <Image
           alt="Banner Principal"
           src="/banner-01.png"
@@ -38,17 +45,6 @@ const Home = async () => {  // 👈 Componente com letra maiúscula (convenção
       <h2 className="mt-6 mb-3 text-xs font-bold uppercase text-gray-400">
         Agendamentos
       </h2>
-
-      <h2 className="mt-6 mb-3 text-xs font-bold uppercase text-gray-400">
-        Recomendados
-      </h2>
-      
-      <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-        {babershops.map((babershop) => (
-          <BabershopItem key={babershop.id} babershop={babershop} />
-        ))}
-      </div>
-
       <Card className="mt-4">
         <CardContent className="flex justify-between p-0">
           <div className="flex flex-col gap-2 py-5 pl-5">
@@ -57,9 +53,9 @@ const Home = async () => {  // 👈 Componente com letra maiúscula (convenção
 
             <div className="flex items-center gap-2">
               <Avatar className="w-6 h-6">
-                <AvatarImage 
-                  src="https://utfs.io/f/c97a2dc9-cf62-468b-a851-bfd2bdde775f-16p.png" 
-                  alt="Avatar do Cliente" 
+                <AvatarImage
+                  src="https://utfs.io/f/c97a2dc9-cf62-468b-a851-bfd2bdde775f-16p.png"
+                  alt="Avatar do Cliente"
                 />
               </Avatar>
               <p className="text-sm">Kenny barbian</p>
@@ -72,8 +68,38 @@ const Home = async () => {  // 👈 Componente com letra maiúscula (convenção
           </div>
         </CardContent>
       </Card>
+
+
+      <h2 className="mt-6 mb-3 text-xs font-bold uppercase text-gray-400">
+        Recomendados
+      </h2>
+
+      <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+        {babershops.map((babershop) => (
+          <BabershopItem key={babershop.id} babershop={babershop} />
+        ))}
+      </div>
+
+      <h2 className="mt-6 mb-3 text-xs font-bold uppercase text-gray-400">
+        Populares
+      </h2>
+
+      <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+        {popularBabershops.map((babershop) => (
+          <BabershopItem key={babershop.id} babershop={babershop} />
+        ))}
+      </div>
+      <footer>
+
+        <Card className="py-6 px-5">
+          <CardContent className=" text-sm text-gray-400">
+            @2026 My Barber. Todos os direitos reservados.
+          </CardContent>
+
+        </Card>
+      </footer>
     </div>
   );
 };
 
-export default Home; // 👈 Export com letra maiúscula
+export default Home; 
