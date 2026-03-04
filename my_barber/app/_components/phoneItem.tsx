@@ -2,12 +2,14 @@
 "use client"
 import { SmartphoneIcon } from "lucide-react";
 import { Button } from "./ui/button";
+import { toast } from "sonner";
 interface PhoneItemProps {
     phone: string
 }
 
 const CopyPhoneClick = (phone: string) => {
     navigator.clipboard.writeText(phone)
+    toast.success("O telefone foi copiado com sucesso!")
 }
 
 const PhoneItem = ({ phone }: PhoneItemProps) => {
