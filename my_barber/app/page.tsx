@@ -8,11 +8,12 @@ import { Badge } from "./_components/ui/badge";
 import { Avatar, AvatarImage } from "./_components/ui/avatar";
 import { db } from "./_lib/prisma";
 import BabershopItem from "./_components/babershop-item";
-import { Barbershop } from "@prisma/client"; 
+import { Barbershop } from "@prisma/client";
+import { QuickSeachOptions } from "./_constants/search/Search";
+import BookingItem from "./_components/booking-item";
+const Home = async () => {
 
-const Home = async () => {  
-
-  const babershops: Barbershop[] = await db.barbershop.findMany({}); 
+  const babershops: Barbershop[] = await db.barbershop.findMany({});
   const popularBabershops: Barbershop[] = await db.barbershop.findMany({
     orderBy: {
       name: "desc",
@@ -32,6 +33,18 @@ const Home = async () => {
         </Button>
       </div>
 
+      <div className="flex gap-3 mt-6 overflow-x-scroll [&::-webkit-scrollbar]:hidden" >
+
+        {QuickSeachOptions.map((option) => (
+          <Button className="gap-2" variant="secondary" key={option.title}>
+            <Image src={option.imageUrl} width={16} height={16} alt={option.title} />
+            <p> {option.title}</p>
+          </Button>
+
+        ))}
+
+
+      </div>
       <div className="relative h-[150px] w-full mt-6">
 
         <Image
@@ -45,29 +58,9 @@ const Home = async () => {
       <h2 className="mt-6 mb-3 text-xs font-bold uppercase text-gray-400">
         Agendamentos
       </h2>
-      <Card className="mt-4">
-        <CardContent className="flex justify-between p-0">
-          <div className="flex flex-col gap-2 py-5 pl-5">
-            <Badge className="w-fit">Confirmado</Badge>
-            <h3>Corte de cabelo</h3>
-
-            <div className="flex items-center gap-2">
-              <Avatar className="w-6 h-6">
-                <AvatarImage
-                  src="https://utfs.io/f/c97a2dc9-cf62-468b-a851-bfd2bdde775f-16p.png"
-                  alt="Avatar do Cliente"
-                />
-              </Avatar>
-              <p className="text-sm">Kenny barbian</p>
-            </div>
-          </div>
-          <div className="flex flex-col items-center justify-center px-5 border-l border-solid">
-            <p className="text-sm">Agosto</p>
-            <p className="text-2xl">05</p>
-            <p className="text-sm">20:00</p>
-          </div>
-        </CardContent>
-      </Card>
+      
+      
+      <BookingItem />
 
 
       <h2 className="mt-6 mb-3 text-xs font-bold uppercase text-gray-400">
@@ -84,21 +77,22 @@ const Home = async () => {
         Populares
       </h2>
 
-      <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+      <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden mb-5">
         {popularBabershops.map((babershop) => (
           <BabershopItem key={babershop.id} babershop={babershop} />
         ))}
       </div>
       <footer>
 
-        <Card className="py-6 px-5">
+        <Card className="py-6 px-5  ">
           <CardContent className=" text-sm text-gray-400">
-            @2026 My Barber. Todos os direitos reservados.
+            @2026 Copyrigth. <span className="font-bold">My Barber</span>
           </CardContent>
 
         </Card>
       </footer>
     </div>
+
   );
 };
 
