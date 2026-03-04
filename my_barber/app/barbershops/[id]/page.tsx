@@ -4,14 +4,16 @@ import { db } from "@/app/_lib/prisma";
 import { Button } from "@/app/_components/ui/button";
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
 import Link from "next/link";
-import { Barbershop } from "@prisma/client";
 import { notFound } from "next/navigation";
+import ServiceItem from "@/app/_components/serviceItem";
 
-interface BarbershopPageProps{
-    params:{
-        id:string
+interface BarbershopPageProps {
+    params: {
+        id: string
     }
+
 }
+
 
 const BaberShopPage = async ({ params }: BarbershopPageProps) => {
 
@@ -19,9 +21,12 @@ const BaberShopPage = async ({ params }: BarbershopPageProps) => {
         where: {
             id: params.id
         },
+        include: {
+            services: true,
+        }
     })
 
-    if(!barbershop){
+    if (!barbershop) {
         return notFound()
     }
     return (
@@ -31,7 +36,7 @@ const BaberShopPage = async ({ params }: BarbershopPageProps) => {
                     alt={barbershop.name}
                     src={barbershop?.imageUrl}
                     fill className="object-cover"
-                    
+
                 />
                 <Button
                     size="icon"
@@ -65,10 +70,17 @@ const BaberShopPage = async ({ params }: BarbershopPageProps) => {
                 </div>
             </div>
             <div className="space-y-3 border-b border-solid p-5">
-               <h1 className="uppercase text-gray-400 font-bold"> Sobre Nós</h1>
-               <p className="text-sm ">{barbershop?.description}</p>
+                <h1 className="uppercase text-gray-400 font-bold"> Sobre Nós</h1>
+                <p className="text-sm ">{barbershop?.description}</p>
             </div>
-
+            <div className="p-5">
+                <h1 className="uppercase text-gray-400 font-bold mb-3">Serviços</h1>
+                <div className="space-y-4">
+                    {barbershop.services.map((service) => (
+                        <ServiceItem key={service.id} service={service} />
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }

@@ -33,7 +33,7 @@ const BabershopItem = ({ babershop }: BabershopItemProps) => {
         </div>
         <div className="px-1 py-3">
            
-            <Button variant="secondary" className=" w-full mt-3" asChild>
+            <Button variant="secondary" className=" w-full mt-3 " asChild>
               <Link href={`/barbershops/${babershop.id}`}>Reserva
 
               </Link>
