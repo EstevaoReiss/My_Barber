@@ -32,7 +32,7 @@ const BaberShopPage = async ({ params }: BarbershopPageProps) => {
     }
 
 
-   
+
     return (
         <div>
             <div className="relative w-full h-[250px]">
@@ -84,13 +84,13 @@ const BaberShopPage = async ({ params }: BarbershopPageProps) => {
                         <ServiceItem key={service.id} service={service} />
                     ))}
                 </div>
-                
+
             </div>
             <div className="space-y-3 p-5">
-               {barbershop.phones.map((phone) => (
-                <PhoneItem phone={phone}/>
-               ))}
-               </div>
+                {barbershop.phones.map((phone) => (
+                    <PhoneItem phone={phone} />
+                ))}
+            </div>
         </div>
     );
 }
